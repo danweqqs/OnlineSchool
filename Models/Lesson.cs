@@ -12,7 +12,7 @@ namespace OnlineSchool.Models
         [Required]
         public TimeSpan Time { get; set; }
 
-        public int DurationMinutes { get; set; } = 45;
+        public int DurationMinutes { get; set; } = 50;
 
         [MaxLength(50)]
         public string Status { get; set; } = "Scheduled";

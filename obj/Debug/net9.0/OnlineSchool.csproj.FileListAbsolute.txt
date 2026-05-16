@@ -99,3 +99,4 @@ C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\refint\OnlineSchool.dll
 C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\OnlineSchool.pdb
 C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\OnlineSchool.genruntimeconfig.cache
 C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\ref\OnlineSchool.dll
+C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\OnlineSchool.sourcelink.json
