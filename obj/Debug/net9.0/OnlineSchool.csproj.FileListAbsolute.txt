@@ -100,3 +100,7 @@ C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\OnlineSchool.pdb
 C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\OnlineSchool.genruntimeconfig.cache
 C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\ref\OnlineSchool.dll
 C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\OnlineSchool.sourcelink.json
+C:\sheva\isttp\lab2\OnlineSchool\bin\Debug\net9.0\OnlineSchool.staticwebassets.runtime.json
+C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\compressed\bthm2cbkzy-cz68azytqy.gz
+C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\compressed\lsujilpyo1-m2enyuv8rr.gz
+C:\sheva\isttp\lab2\OnlineSchool\obj\Debug\net9.0\compressed\07bvx9usb8-caleg68q0s.gz

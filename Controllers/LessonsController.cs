@@ -97,6 +97,7 @@ namespace OnlineSchool.Controllers
             if (studentConflict)
                 return Conflict(new { message = "Student already has a lesson at this date and time" });
 
+            lesson.Date = DateTime.SpecifyKind(lesson.Date, DateTimeKind.Utc);
             if (string.IsNullOrEmpty(lesson.Status))
                 lesson.Status = "Scheduled";
 
@@ -119,6 +120,7 @@ namespace OnlineSchool.Controllers
             if (!await _context.Students.AnyAsync(s => s.Id == lesson.StudentId))
                 return BadRequest(new { message = $"Student with id {lesson.StudentId} not found" });
 
+            lesson.Date = DateTime.SpecifyKind(lesson.Date, DateTimeKind.Utc);
             _context.Entry(lesson).State = EntityState.Modified;
 
             try

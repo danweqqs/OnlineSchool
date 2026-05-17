@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlineSchool</title>
+    <link rel="stylesheet" href="css/site.css">
+</head>
+
+<body>
+    <h1>OnlineSchool - Admin Panel</h1>
+
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('subjects')">Subjects</button>
+        <button class="tab" onclick="showTab('teachers')">Teachers</button>
+        <button class="tab" onclick="showTab('students')">Students</button>
+        <button class="tab" onclick="showTab('lessons')">Lessons</button>
+        <button class="tab" onclick="showTab('requests')">Requests</button>
+    </div>
+
+    <div id="subjects" class="tab-content active">
+        <h2>Subjects</h2>
+        <form onsubmit="addSubject(); return false;">
+            <input type="text" id="subject-name" placeholder="Subject name" required>
+            <input type="text" id="subject-desc" placeholder="Description">
+            <button type="submit">Add</button>
+        </form>
+        <div id="edit-subject" class="edit-form" style="display:none;">
+            <h3>Edit Subject</h3>
+            <input type="hidden" id="edit-subject-id">
+            <input type="text" id="edit-subject-name">
+            <input type="text" id="edit-subject-desc">
+            <button onclick="updateSubject()">Save</button>
+            <button onclick="hideEdit('edit-subject')">Cancel</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="subjects-table"></tbody>
+        </table>
+    </div>
+
+    <div id="teachers" class="tab-content">
+        <h2>Teachers</h2>
+        <form onsubmit="addTeacher(); return false;">
+            <input type="text" id="teacher-name" placeholder="Full name" required>
+            <input type="email" id="teacher-email" placeholder="Email">
+            <input type="text" id="teacher-phone" placeholder="Phone">
+            <select id="teacher-subject">
+                <option value="">Subject</option>
+            </select>
+            <button type="submit">Add</button>
+        </form>
+        <div id="edit-teacher" class="edit-form" style="display:none;">
+            <h3>Edit Teacher</h3>
+            <input type="hidden" id="edit-teacher-id">
+            <input type="text" id="edit-teacher-name">
+            <input type="email" id="edit-teacher-email">
+            <input type="text" id="edit-teacher-phone">
+            <select id="edit-teacher-subject">
+                <option value="">Subject</option>
+            </select>
+            <button onclick="updateTeacher()">Save</button>
+            <button onclick="hideEdit('edit-teacher')">Cancel</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Subject</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="teachers-table"></tbody>
+        </table>
+        <div id="schedule-view" class="edit-form" style="display:none;"></div>
+    </div>
+
+    <div id="students" class="tab-content">
+        <h2>Students</h2>
+        <form onsubmit="addStudent(); return false;">
+            <input type="text" id="student-name" placeholder="Full name" required>
+            <input type="email" id="student-email" placeholder="Email">
+            <input type="text" id="student-phone" placeholder="Phone">
+            <button type="submit">Add</button>
+        </form>
+        <div id="edit-student" class="edit-form" style="display:none;">
+            <h3>Edit Student</h3>
+            <input type="hidden" id="edit-student-id">
+            <input type="text" id="edit-student-name">
+            <input type="email" id="edit-student-email">
+            <input type="text" id="edit-student-phone">
+            <button onclick="updateStudent()">Save</button>
+            <button onclick="hideEdit('edit-student')">Cancel</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Registered</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="students-table"></tbody>
+        </table>
+    </div>
+
+    <div id="lessons" class="tab-content">
+        <h2>Lessons</h2>
+        <form onsubmit="addLesson(); return false;">
+            <select id="lesson-subject" required onchange="loadTeachersBySubject()">
+                <option value="">Subject</option>
+            </select>
+            <select id="lesson-teacher" required>
+                <option value="">Teacher</option>
+            </select>
+            <select id="lesson-student" required>
+                <option value="">Student</option>
+            </select>
+            <input type="date" id="lesson-date" required>
+            <input type="time" id="lesson-time" required>
+            <input type="number" id="lesson-duration" placeholder="Minutes" value="45">
+            <button type="submit">Add</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Duration</th>
+                    <th>Subject</th>
+                    <th>Teacher</th>
+                    <th>Student</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="lessons-table"></tbody>
+        </table>
+    </div>
+
+    <div id="requests" class="tab-content">
+        <h2>Teacher Requests</h2>
+        <form onsubmit="addRequest(); return false;">
+            <select id="request-teacher" required>
+                <option value="">Teacher</option>
+            </select>
+            <select id="request-type" required>
+                <option value="DayOff">Day Off</option>
+                <option value="Reschedule">Reschedule</option>
+            </select>
+            <input type="text" id="request-desc" placeholder="Description">
+            <button type="submit">Submit</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="requests-table"></tbody>
+        </table>
+    </div>
+
+    <script src="js/site.js"></script>
+</body>
+
+</html>

@@ -16,17 +16,42 @@ namespace OnlineSchool.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Teacher>>> GetAll()
+        public async Task<ActionResult<IEnumerable<object>>> GetAll()
         {
-            return await _context.Teachers.ToListAsync();
+            var teachers = await _context.Teachers
+                .Include(t => t.Subject)
+                .Select(t => new
+                {
+                    t.Id,
+                    t.FullName,
+                    t.Email,
+                    t.Phone,
+                    t.SubjectId,
+                    Subject = t.Subject != null ? t.Subject.Name : null
+                })
+                .ToListAsync();
+
+            return Ok(teachers);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Teacher>> GetById(int id)
+        public async Task<ActionResult<object>> GetById(int id)
         {
-            var teacher = await _context.Teachers.FindAsync(id);
+            var teacher = await _context.Teachers
+                .Include(t => t.Subject)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
             if (teacher == null) return NotFound(new { message = $"Teacher with id {id} not found" });
-            return teacher;
+
+            return Ok(new
+            {
+                teacher.Id,
+                teacher.FullName,
+                teacher.Email,
+                teacher.Phone,
+                teacher.SubjectId,
+                Subject = teacher.Subject?.Name
+            });
         }
 
         [HttpGet("{id}/schedule")]
@@ -75,6 +100,13 @@ namespace OnlineSchool.Controllers
                 var emailExists = await _context.Teachers.AnyAsync(t => t.Email == teacher.Email);
                 if (emailExists)
                     return Conflict(new { message = $"Teacher with email '{teacher.Email}' already exists" });
+            }
+
+            if (teacher.SubjectId.HasValue)
+            {
+                var subjectExists = await _context.Subjects.AnyAsync(s => s.Id == teacher.SubjectId);
+                if (!subjectExists)
+                    return BadRequest(new { message = $"Subject with id {teacher.SubjectId} not found" });
             }
 
             _context.Teachers.Add(teacher);
