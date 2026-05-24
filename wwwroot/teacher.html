@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Profile</title>
+    <link rel="stylesheet" href="css/site.css">
+    <style>
+        .profile-header {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .profile-info p {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .profile-info span {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            margin-bottom: 15px;
+            color: #4CAF50;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            background: #4CAF50;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/" class="back-link">← Back to Admin Panel</a>
+    <div id="profile-header" class="section">
+        <div class="profile-header">
+            <div class="profile-info">
+                <h2 id="teacher-name">Loading...</h2>
+                <p>Email: <span id="teacher-email"></span></p>
+                <p>Phone: <span id="teacher-phone"></span></p>
+                <p>Subject: <span id="teacher-subject" class="badge"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Schedule</h3>
+        <div id="week-nav"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Duration</th>
+                    <th>Subject</th>
+                    <th>Student</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="schedule-table"></tbody>
+        </table>
+        <p id="no-lessons" style="display:none; color:#999;">No lessons scheduled</p>
+    </div>
+
+    <div class="section">
+        <h3>My Students</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody id="students-table"></tbody>
+        </table>
+        <p id="no-students" style="display:none; color:#999;">No students yet</p>
+    </div>
+
+    <div class="section">
+        <h3>Submit Request</h3>
+        <form onsubmit="submitRequest(); return false;">
+            <select id="request-type" required>
+                <option value="DayOff">Day Off</option>
+                <option value="Reschedule">Reschedule</option>
+            </select>
+            <input type="text" id="request-desc" placeholder="Description" style="flex:1;">
+            <button type="submit">Submit</button>
+        </form>
+        <h3 style="margin-top:20px;">My Requests</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="requests-table"></tbody>
+        </table>
+    </div>
+
+    <script src="js/teacher.js"></script>
+</body>
+
+</html>

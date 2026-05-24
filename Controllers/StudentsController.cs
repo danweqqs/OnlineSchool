@@ -22,11 +22,19 @@ namespace OnlineSchool.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetById(int id)
+        public async Task<ActionResult<object>> GetById(int id)
         {
             var student = await _context.Students.FindAsync(id);
             if (student == null) return NotFound(new { message = $"Student with id {id} not found" });
-            return student;
+            return Ok(new
+            {
+                student.Id,
+                student.FullName,
+                student.Email,
+                student.Phone,
+                student.DateRegistered,
+                student.Balance
+            });
         }
 
         [HttpGet("{id}/schedule")]
@@ -94,6 +102,21 @@ namespace OnlineSchool.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPatch("{id}/topup")]
+        public async Task<IActionResult> TopUp(int id, [FromBody] decimal amount)
+        {
+            if (amount <= 0)
+                return BadRequest(new { message = "Amount must be positive" });
+
+            var student = await _context.Students.FindAsync(id);
+            if (student == null) return NotFound(new { message = $"Student with id {id} not found" });
+
+            student.Balance += amount;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Balance updated", balance = student.Balance });
         }
 
         [HttpDelete("{id}")]

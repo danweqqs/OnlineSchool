@@ -111,8 +111,8 @@ function getTeachers() {
                     <td>${t.phone || ''}</td>
                     <td>${t.subject || ''}</td>
                     <td>
+                        <a href="/teacher.html?id=${t.id}" style="padding:6px 14px;border:1px solid #ddd;border-radius:4px;text-decoration:none;color:#333;font-size:14px;">Profile</a>
                         <button onclick="editTeacher(${t.id}, '${t.fullName}', '${t.email || ''}', '${t.phone || ''}', ${t.subjectId || 'null'})">Edit</button>
-                        <button onclick="showSchedule(${t.id}, '${t.fullName}', this)">Schedule</button>
                         <button onclick="deleteTeacher(${t.id})">Delete</button>
                     </td>
                 </tr>`;
@@ -196,6 +196,7 @@ function getStudents() {
                     <td>${s.phone || ''}</td>
                     <td>${date}</td>
                     <td>
+                        <a href="/student.html?id=${s.id}" style="padding:6px 14px;border:1px solid #ddd;border-radius:4px;text-decoration:none;color:#333;font-size:14px;">Profile</a>
                         <button onclick="editStudent(${s.id}, '${s.fullName}', '${s.email || ''}', '${s.phone || ''}')">Edit</button>
                         <button onclick="deleteStudent(${s.id})">Delete</button>
                     </td>
@@ -426,56 +427,6 @@ function deleteRequest(id) {
     if (!confirm('Delete this request?')) return;
     fetch(`${API.requests}/${id}`, { method: 'DELETE' })
         .then(() => getRequests());
-}
-
-function showSchedule(teacherId, teacherName, btn) {
-    const existingRow = document.getElementById('schedule-row');
-    if (existingRow) existingRow.remove();
-
-    const tr = btn.closest('tr');
-    const newRow = document.createElement('tr');
-    newRow.id = 'schedule-row';
-    const td = document.createElement('td');
-    td.colSpan = 5;
-    td.className = 'edit-form';
-    td.innerHTML = 'Loading...';
-    newRow.appendChild(td);
-    tr.after(newRow);
-
-    fetch(`${API.teachers}/${teacherId}/schedule`)
-        .then(r => r.json())
-        .then(data => {
-            let html = `<strong>${teacherName} — Schedule</strong>`;
-            if (data.length === 0) {
-                html += '<p>No lessons</p>';
-            } else {
-                html += '<table><thead><tr><th>Date</th><th>Time</th><th>Duration</th><th>Subject</th><th>Student</th><th>Status</th></tr></thead><tbody>';
-                data.forEach(l => {
-                    const date = l.date ? new Date(l.date).toLocaleDateString() : '';
-                    let displayStatus = l.status;
-                    const lessonEnd = new Date(l.date);
-                    const timeParts = (l.time || '0:0:0').split(':');
-                    lessonEnd.setHours(parseInt(timeParts[0]), parseInt(timeParts[1]) + (l.durationMinutes || 45));
-                    if (l.status === 'Scheduled' && lessonEnd < new Date()) displayStatus = 'Completed';
-                    const statusClass = displayStatus === 'Cancelled' ? 'status-cancelled' : displayStatus === 'Completed' ? 'status-completed' : 'status-active';
-                    html += `<tr>
-                        <td>${date}</td>
-                        <td>${l.time || ''}</td>
-                        <td>${l.durationMinutes} min</td>
-                        <td>${l.subject?.name || ''}</td>
-                        <td>${l.student?.fullName || ''}</td>
-                        <td class="${statusClass}">${displayStatus}</td>
-                    </tr>`;
-                });
-                html += '</tbody></table>';
-            }
-            html += '<button onclick="document.getElementById(\'schedule-row\').remove()">Close</button>';
-            td.innerHTML = html;
-        });
-}
-
-function closeSchedule() {
-    document.getElementById('schedule-view').style.display = 'none';
 }
 
 getSubjects();

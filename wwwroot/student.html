@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link rel="stylesheet" href="css/site.css">
+    <style>
+        .profile-header {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .profile-info p {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .profile-info span {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            margin-bottom: 15px;
+            color: #4CAF50;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .balance-box {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .balance-positive {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .balance-zero {
+            background: #fff3e0;
+            color: #e65100;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/" class="back-link">← Back to Admin Panel</a>
+
+    <div class="section">
+        <div class="profile-header">
+            <div class="profile-info">
+                <h2 id="student-name">Loading...</h2>
+                <p>Email: <span id="student-email"></span></p>
+                <p>Phone: <span id="student-phone"></span></p>
+                <p>Registered: <span id="student-date"></span></p>
+            </div>
+            <div style="text-align:center;">
+                <p style="color:#555;margin-bottom:5px;">Balance</p>
+                <div id="student-balance" class="balance-box balance-zero">0 ₴</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Top Up Balance</h3>
+        <form onsubmit="topUp(); return false;">
+            <input type="number" id="topup-amount" placeholder="Amount" min="1" step="1" required style="width:150px;">
+            <button type="submit">Top Up</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h3>Statistics</h3>
+        <div id="stats" style="display:flex;gap:20px;flex-wrap:wrap;"></div>
+    </div>
+
+    <div class="section">
+        <h3>Lessons</h3>
+        <div id="week-nav"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Duration</th>
+                    <th>Subject</th>
+                    <th>Teacher</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="schedule-table"></tbody>
+        </table>
+        <p id="no-lessons" style="display:none; color:#999;">No lessons this week</p>
+    </div>
+
+    <script src="js/student.js"></script>
+</body>
+
+</html>

@@ -15,6 +15,7 @@ namespace OnlineSchool.Models
 
         [MaxLength(50)]
         public string? Phone { get; set; }
+        public decimal Balance { get; set; } = 0;
 
         public DateTime DateRegistered { get; set; } = DateTime.Now;
 
